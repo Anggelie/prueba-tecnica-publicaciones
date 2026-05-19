@@ -1,20 +1,20 @@
-# Prueba técnica - Gestión de publicaciones
+# Prueba tecnica - Gestion de publicaciones
 
-Aplicación web CRUD para administrar publicaciones. Incluye una API REST con NestJS, persistencia en MongoDB y una interfaz React responsive para crear, listar, ver detalle, editar y eliminar publicaciones de forma lógica.
+Aplicacion web CRUD para administrar publicaciones. Incluye una API REST con NestJS, persistencia en MongoDB y una interfaz React responsive para crear, listar, ver detalle, editar y eliminar publicaciones de forma logica.
 
 ## Tecnologias usadas
 
-- Frontend: React, TypeScript, Vite
-- Backend: NestJS, TypeScript
+- Frontend: React, TypeScript y Vite
+- Backend: NestJS y TypeScript
 - Base de datos: MongoDB con Mongoose
 - Validaciones: class-validator y ValidationPipe
 - Control de versiones: Git
 
 ## Requisitos previos
 
-- Node.js 
+- Node.js
 - npm
-- MongoDB local o una base de datos MongoDB Atlas
+- MongoDB local o una base MongoDB Atlas
 - Git
 
 ## Estructura del proyecto
@@ -22,6 +22,7 @@ Aplicación web CRUD para administrar publicaciones. Incluye una API REST con Ne
 ```txt
 backend/
   src/
+    common/
     publicaciones/
       dto/
       schemas/
@@ -34,6 +35,7 @@ frontend/
   src/
     api/
     App.tsx
+    App.css
     types.ts
   .env.example
 ```
@@ -56,6 +58,8 @@ MONGODB_URI=mongodb://localhost:27017/prueba_publicaciones
 PORT=3000
 ```
 
+Si se usa MongoDB Atlas, reemplazar `MONGODB_URI` en el archivo `.env` local con la cadena privada correspondiente.
+
 Frontend:
 
 ```bash
@@ -69,7 +73,7 @@ Contenido esperado:
 VITE_API_URL=http://localhost:3000
 ```
 
-## Instalación
+## Instalacion
 
 Instalar dependencias del backend:
 
@@ -85,7 +89,7 @@ cd frontend
 npm install
 ```
 
-## Ejecución local
+## Ejecucion local
 
 Iniciar el backend:
 
@@ -107,7 +111,7 @@ cd frontend
 npm run dev
 ```
 
-La aplicación queda disponible normalmente en:
+La aplicacion queda disponible normalmente en:
 
 ```txt
 http://localhost:5173
@@ -127,8 +131,8 @@ Ejemplo de body para crear o actualizar:
 
 ```json
 {
-  "titulo": "Primera publicación",
-  "descripcion": "Descripcion de prueba para la publicación.",
+  "titulo": "Primera publicacion",
+  "descripcion": "Descripcion de prueba para la publicacion.",
   "autor": "Juan Perez",
   "fechaCreacion": "2026-05-18T00:00:00.000Z",
   "estado": "Activo"
@@ -139,24 +143,54 @@ Ejemplo de body para crear o actualizar:
 
 - La eliminacion es logica: el backend asigna `deletedAt` y cambia el estado a `Inactivo`.
 - El listado excluye publicaciones con `deletedAt`.
+- La coleccion de MongoDB se define explicitamente como `publicaciones`.
 - El backend valida DTOs con `class-validator`.
 - Los IDs de MongoDB se validan antes de consultar la base de datos.
 - El frontend muestra estados de carga, mensajes de error y confirmacion de operaciones.
 - Los formularios tienen validaciones basicas en frontend y backend.
 
-Ejecutar:
+## Verificacion
+
+Compilar backend:
 
 ```bash
 cd backend
 npm run build
 ```
 
+Compilar frontend:
+
 ```bash
 cd frontend
 npm run build
 ```
 
+Tambien se recomienda probar el flujo completo desde la interfaz:
+
+- Crear una publicacion.
+- Verla en el listado.
+- Abrir el detalle.
+- Editarla.
+- Eliminarla logicamente.
+- Confirmar que ya no aparece en el listado.
+
+## Archivos para entrega
+
+Incluir en el archivo `.zip`:
+
+- `backend/`
+- `frontend/`
+- `.gitignore`
+- `README.md`
+
+No incluir:
+
+- `node_modules/`
+- `backend/.env`
+- `frontend/.env`
+- `backend/dist/`
+- `frontend/dist/`
 
 ## Notas para el evaluador
 
-El proyecto esta pensado para correr localmente con MongoDB local o MongoDB Atlas configurado desde `.env`. Las credenciales reales no forman parte del repositorio por seguridad.
+El proyecto esta preparado para ejecutarse localmente con MongoDB local o MongoDB Atlas configurado desde `.env`. Las credenciales reales no forman parte del repositorio por seguridad.
