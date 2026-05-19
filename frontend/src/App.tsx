@@ -1,32 +1,16 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
+import {
+  actualizarPublicacion,
+  crearPublicacion,
+  eliminarPublicacionApi,
+  listarPublicaciones,
+  obtenerPublicacion,
+} from './api/publicacionesApi'
+import type { EstadoPublicacion, Publicacion, PublicacionForm } from './types'
 import './App.css'
 
-type EstadoPublicacion = 'Activo' | 'Inactivo'
-
-type Publicacion = {
-  _id: string
-  titulo: string
-  descripcion: string
-  autor: string
-  fechaCreacion: string
-  estado: EstadoPublicacion
-  deletedAt?: string | null
-  createdAt?: string
-  updatedAt?: string
-}
-
-type PublicacionForm = {
-  titulo: string
-  descripcion: string
-  autor: string
-  fechaCreacion: string
-  estado: EstadoPublicacion
-}
-
 type Vista = 'lista' | 'detalle' | 'crear' | 'editar'
-
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
 
 const formularioInicial: PublicacionForm = {
   titulo: '',
@@ -58,35 +42,11 @@ function App() {
     cargarPublicaciones()
   }, [])
 
-  async function consultarApi<T>(ruta: string, opciones?: RequestInit): Promise<T> {
-    const respuesta = await fetch(`${API_URL}${ruta}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        ...opciones?.headers,
-      },
-      ...opciones,
-    })
-
-    if (!respuesta.ok) {
-      const cuerpo = await respuesta.json().catch(() => null)
-      const detalle = Array.isArray(cuerpo?.message)
-        ? cuerpo.message.join(', ')
-        : cuerpo?.message
-      throw new Error(detalle ?? 'Ocurrio un error al procesar la solicitud')
-    }
-
-    if (respuesta.status === 204) {
-      return null as T
-    }
-
-    return respuesta.json()
-  }
-
   async function cargarPublicaciones() {
     setCargando(true)
     setError('')
     try {
-      const datos = await consultarApi<Publicacion[]>('/publicaciones')
+      const datos = await listarPublicaciones()
       setPublicaciones(datos)
     } catch (err) {
       setError(obtenerMensajeError(err))
@@ -100,7 +60,7 @@ function App() {
     setError('')
     setMensaje('')
     try {
-      const datos = await consultarApi<Publicacion>(`/publicaciones/${id}`)
+      const datos = await obtenerPublicacion(id)
       setPublicacionSeleccionada(datos)
       setVista('detalle')
     } catch (err) {
@@ -152,16 +112,10 @@ function App() {
 
     try {
       if (esEdicion && publicacionSeleccionada) {
-        await consultarApi<Publicacion>(`/publicaciones/${publicacionSeleccionada._id}`, {
-          method: 'PATCH',
-          body: JSON.stringify(cuerpo),
-        })
+        await actualizarPublicacion(publicacionSeleccionada._id, cuerpo)
         setMensaje('Publicacion actualizada correctamente.')
       } else {
-        await consultarApi<Publicacion>('/publicaciones', {
-          method: 'POST',
-          body: JSON.stringify(cuerpo),
-        })
+        await crearPublicacion(cuerpo)
         setMensaje('Publicacion creada correctamente.')
       }
 
@@ -189,9 +143,7 @@ function App() {
     setError('')
     setMensaje('')
     try {
-      await consultarApi(`/publicaciones/${publicacion._id}`, {
-        method: 'DELETE',
-      })
+      await eliminarPublicacionApi(publicacion._id)
       setMensaje('Publicacion eliminada correctamente.')
       if (publicacionSeleccionada?._id === publicacion._id) {
         setPublicacionSeleccionada(null)

@@ -10,6 +10,7 @@ import {
 import { CreatePublicacionDto } from './dto/create-publicacion.dto';
 import { UpdatePublicacionDto } from './dto/update-publicacion.dto';
 import { PublicacionesService } from './publicaciones.service';
+import { ParseObjectIdPipe } from '../common/pipes/parse-object-id.pipe';
 
 @Controller('publicaciones')
 export class PublicacionesController {
@@ -26,20 +27,20 @@ export class PublicacionesController {
   }
 
   @Get(':id')
-  obtenerPorId(@Param('id') id: string) {
+  obtenerPorId(@Param('id', ParseObjectIdPipe) id: string) {
     return this.publicacionesService.obtenerPorId(id);
   }
 
   @Patch(':id')
   actualizar(
-    @Param('id') id: string,
+    @Param('id', ParseObjectIdPipe) id: string,
     @Body() updatePublicacionDto: UpdatePublicacionDto,
   ) {
     return this.publicacionesService.actualizar(id, updatePublicacionDto);
   }
 
   @Delete(':id')
-  eliminar(@Param('id') id: string) {
+  eliminar(@Param('id', ParseObjectIdPipe) id: string) {
     return this.publicacionesService.eliminar(id);
   }
 }
