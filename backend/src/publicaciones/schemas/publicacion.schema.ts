@@ -28,7 +28,7 @@ export class Publicacion {
   estado: EstadoPublicacion;
 
   // Se usa para eliminación lógica sin perder el historial del registro.
-  @Prop({ default: null })
+  @Prop({ type: Date, default: null })
   deletedAt: Date | null;
 }
 
