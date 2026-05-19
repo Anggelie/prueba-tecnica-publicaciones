@@ -6,10 +6,7 @@ import {
   EstadoPublicacion,
 } from './dto/create-publicacion.dto';
 import { UpdatePublicacionDto } from './dto/update-publicacion.dto';
-import {
-  Publicacion,
-  PublicacionDocument,
-} from './schemas/publicacion.schema';
+import { Publicacion, PublicacionDocument } from './schemas/publicacion.schema';
 
 @Injectable()
 export class PublicacionesService {
@@ -44,11 +41,10 @@ export class PublicacionesService {
 
   async actualizar(id: string, updatePublicacionDto: UpdatePublicacionDto) {
     const publicacion = await this.publicacionModel
-      .findOneAndUpdate(
-        { _id: id, deletedAt: null },
-        updatePublicacionDto,
-        { new: true, runValidators: true },
-      )
+      .findOneAndUpdate({ _id: id, deletedAt: null }, updatePublicacionDto, {
+        new: true,
+        runValidators: true,
+      })
       .exec();
 
     if (!publicacion) {
