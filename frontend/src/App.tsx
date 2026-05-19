@@ -113,10 +113,10 @@ function App() {
     try {
       if (esEdicion && publicacionSeleccionada) {
         await actualizarPublicacion(publicacionSeleccionada._id, cuerpo)
-        setMensaje('Publicacion actualizada correctamente.')
+        setMensaje('Publicación actualizada correctamente.')
       } else {
         await crearPublicacion(cuerpo)
-        setMensaje('Publicacion creada correctamente.')
+        setMensaje('Publicación creada correctamente.')
       }
 
       setVista('lista')
@@ -132,7 +132,7 @@ function App() {
 
   async function eliminarPublicacion(publicacion: Publicacion) {
     const confirmar = window.confirm(
-      `Se eliminara logicamente la publicacion "${publicacion.titulo}".`,
+      `Se eliminará lógicamente la publicación "${publicacion.titulo}".`,
     )
 
     if (!confirmar) {
@@ -144,7 +144,7 @@ function App() {
     setMensaje('')
     try {
       await eliminarPublicacionApi(publicacion._id)
-      setMensaje('Publicacion eliminada correctamente.')
+      setMensaje('Publicación eliminada correctamente.')
       if (publicacionSeleccionada?._id === publicacion._id) {
         setPublicacionSeleccionada(null)
         setVista('lista')
@@ -161,7 +161,7 @@ function App() {
     <main className="app-shell">
       <header className="app-header">
         <div>
-          <p className="eyebrow">Gestion de publicaciones</p>
+          <p className="eyebrow">Gestión de publicaciones</p>
           <h1>Publicaciones</h1>
         </div>
         <button
@@ -170,7 +170,7 @@ function App() {
           onClick={abrirCrear}
           disabled={guardando}
         >
-          Nueva publicacion
+          Nueva publicación
         </button>
       </header>
 
@@ -189,13 +189,21 @@ function App() {
         </div>
       </section>
 
-      {error && <div className="alert alert-error">{error}</div>}
-      {mensaje && <div className="alert alert-success">{mensaje}</div>}
+      {error && (
+        <div className="alert alert-error" role="alert">
+          {error}
+        </div>
+      )}
+      {mensaje && (
+        <div className="alert alert-success" role="status" aria-live="polite">
+          {mensaje}
+        </div>
+      )}
 
       {(vista === 'crear' || vista === 'editar') && (
         <section className="panel">
           <div className="panel-heading">
-            <h2>{esEdicion ? 'Editar publicacion' : 'Crear publicacion'}</h2>
+            <h2>{esEdicion ? 'Editar publicación' : 'Crear publicación'}</h2>
             <button
               className="ghost-button"
               type="button"
@@ -208,7 +216,7 @@ function App() {
 
           <form className="publication-form" onSubmit={guardarPublicacion}>
             <label>
-              Titulo
+              Título
               <input
                 type="text"
                 value={formulario.titulo}
@@ -234,7 +242,7 @@ function App() {
             </label>
 
             <label>
-              Fecha de creacion
+              Fecha de creación
               <input
                 type="date"
                 value={formulario.fechaCreacion}
@@ -262,7 +270,7 @@ function App() {
             </label>
 
             <label className="full-width">
-              Descripcion
+              Descripción
               <textarea
                 value={formulario.descripcion}
                 rows={5}
@@ -286,7 +294,7 @@ function App() {
       {vista === 'detalle' && publicacionSeleccionada && (
         <section className="panel">
           <div className="panel-heading">
-            <h2>Detalle de publicacion</h2>
+            <h2>Detalle de publicación</h2>
             <button className="ghost-button" type="button" onClick={() => setVista('lista')}>
               Volver
             </button>
@@ -294,7 +302,7 @@ function App() {
 
           <div className="detail-grid">
             <div>
-              <span>Titulo</span>
+              <span>Título</span>
               <strong>{publicacionSeleccionada.titulo}</strong>
             </div>
             <div>
@@ -302,7 +310,7 @@ function App() {
               <strong>{publicacionSeleccionada.autor}</strong>
             </div>
             <div>
-              <span>Fecha de creacion</span>
+              <span>Fecha de creación</span>
               <strong>{formatearFecha(publicacionSeleccionada.fechaCreacion)}</strong>
             </div>
             <div>
@@ -310,7 +318,7 @@ function App() {
               <strong>{publicacionSeleccionada.estado}</strong>
             </div>
             <div className="full-width">
-              <span>Descripcion</span>
+              <span>Descripción</span>
               <p>{publicacionSeleccionada.descripcion}</p>
             </div>
           </div>
@@ -359,7 +367,7 @@ function App() {
               <table>
                 <thead>
                   <tr>
-                    <th>Titulo</th>
+                    <th>Título</th>
                     <th>Autor</th>
                     <th>Fecha</th>
                     <th>Estado</th>
@@ -369,7 +377,7 @@ function App() {
                 <tbody>
                   {publicaciones.map((publicacion) => (
                     <tr key={publicacion._id}>
-                      <td>{publicacion.titulo}</td>
+                      <td className="title-cell">{publicacion.titulo}</td>
                       <td>{publicacion.autor}</td>
                       <td>{formatearFecha(publicacion.fechaCreacion)}</td>
                       <td>
@@ -408,7 +416,7 @@ function App() {
 
 function validarFormulario(formulario: PublicacionForm) {
   if (formulario.titulo.trim().length < 3) {
-    return 'El titulo debe tener al menos 3 caracteres.'
+    return 'El título debe tener al menos 3 caracteres.'
   }
 
   if (formulario.autor.trim().length < 3) {
@@ -416,11 +424,11 @@ function validarFormulario(formulario: PublicacionForm) {
   }
 
   if (formulario.descripcion.trim().length < 10) {
-    return 'La descripcion debe tener al menos 10 caracteres.'
+    return 'La descripción debe tener al menos 10 caracteres.'
   }
 
   if (!formulario.fechaCreacion) {
-    return 'La fecha de creacion es obligatoria.'
+    return 'La fecha de creación es obligatoria.'
   }
 
   return ''
@@ -435,7 +443,7 @@ function formatearFecha(fecha: string) {
 }
 
 function obtenerMensajeError(error: unknown) {
-  return error instanceof Error ? error.message : 'Ocurrio un error inesperado'
+  return error instanceof Error ? error.message : 'Ocurrió un error inesperado'
 }
 
 export default App
