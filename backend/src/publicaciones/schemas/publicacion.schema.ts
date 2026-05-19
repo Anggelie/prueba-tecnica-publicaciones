@@ -5,6 +5,7 @@ import { EstadoPublicacion } from '../dto/create-publicacion.dto';
 export type PublicacionDocument = HydratedDocument<Publicacion>;
 
 @Schema({
+  collection: 'publicaciones',
   timestamps: true,
   versionKey: false,
 })
