@@ -1,6 +1,6 @@
-# Prueba tecnica - Gestion de publicaciones
+# Prueba técnica - Gestión de publicaciones
 
-Aplicacion web CRUD para administrar publicaciones. Incluye una API REST con NestJS, persistencia en MongoDB y una interfaz React responsive para crear, listar, ver detalle, editar y eliminar publicaciones de forma logica.
+Aplicación web CRUD para administrar publicaciones. Incluye una API REST con NestJS, persistencia en MongoDB y una interfaz React responsive para crear, listar, ver detalle, editar y eliminar publicaciones de forma lógica.
 
 ## Tecnologias usadas
 
@@ -12,7 +12,7 @@ Aplicacion web CRUD para administrar publicaciones. Incluye una API REST con Nes
 
 ## Requisitos previos
 
-- Node.js 22 o superior
+- Node.js 
 - npm
 - MongoDB local o una base de datos MongoDB Atlas
 - Git
@@ -56,8 +56,6 @@ MONGODB_URI=mongodb://localhost:27017/prueba_publicaciones
 PORT=3000
 ```
 
-Si se usa MongoDB Atlas, reemplazar `MONGODB_URI` en el archivo `.env` local con la cadena privada correspondiente. No subir ese archivo a GitHub.
-
 Frontend:
 
 ```bash
@@ -71,7 +69,7 @@ Contenido esperado:
 VITE_API_URL=http://localhost:3000
 ```
 
-## Instalacion
+## Instalación
 
 Instalar dependencias del backend:
 
@@ -87,7 +85,7 @@ cd frontend
 npm install
 ```
 
-## Ejecucion local
+## Ejecución local
 
 Iniciar el backend:
 
@@ -109,7 +107,7 @@ cd frontend
 npm run dev
 ```
 
-La aplicacion queda disponible normalmente en:
+La aplicación queda disponible normalmente en:
 
 ```txt
 http://localhost:5173
@@ -129,8 +127,8 @@ Ejemplo de body para crear o actualizar:
 
 ```json
 {
-  "titulo": "Primera publicacion",
-  "descripcion": "Descripcion de prueba para la publicacion.",
+  "titulo": "Primera publicación",
+  "descripcion": "Descripcion de prueba para la publicación.",
   "autor": "Juan Perez",
   "fechaCreacion": "2026-05-18T00:00:00.000Z",
   "estado": "Activo"
@@ -146,8 +144,6 @@ Ejemplo de body para crear o actualizar:
 - El frontend muestra estados de carga, mensajes de error y confirmacion de operaciones.
 - Los formularios tienen validaciones basicas en frontend y backend.
 
-## Verificacion antes de entregar
-
 Ejecutar:
 
 ```bash
@@ -160,31 +156,6 @@ cd frontend
 npm run build
 ```
 
-Tambien se recomienda probar el flujo completo desde la interfaz:
-
-- Crear una publicacion.
-- Verla en el listado.
-- Abrir el detalle.
-- Editarla.
-- Eliminarla logicamente.
-- Confirmar que ya no aparece en el listado.
-
-## Archivos para entrega .zip
-
-Incluir todo el proyecto excepto carpetas generadas o dependencias:
-
-- `backend/`
-- `frontend/`
-- `.gitignore`
-- `README.md`
-
-No incluir:
-
-- `node_modules/`
-- `backend/.env`
-- `frontend/.env`
-- `backend/dist/`
-- `frontend/dist/`
 
 ## Notas para el evaluador
 
