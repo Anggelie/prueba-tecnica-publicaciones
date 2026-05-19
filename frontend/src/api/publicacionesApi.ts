@@ -1,19 +1,41 @@
 import type { Publicacion, PublicacionForm } from '../types'
 
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
+const REQUEST_TIMEOUT_MS = 10000
 
 type PublicacionPayload = PublicacionForm & {
   fechaCreacion: string
 }
 
 async function consultarApi<T>(ruta: string, opciones?: RequestInit): Promise<T> {
-  const respuesta = await fetch(`${API_URL}${ruta}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...opciones?.headers,
-    },
-    ...opciones,
-  })
+  const controller = new AbortController()
+  const timeoutId = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
+
+  let respuesta: Response
+
+  try {
+    respuesta = await fetch(`${API_URL}${ruta}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...opciones?.headers,
+      },
+      ...opciones,
+      signal: controller.signal,
+    })
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      throw new Error(
+        'La API no respondio a tiempo. Revisa que el backend este conectado a MongoDB.',
+        { cause: error },
+      )
+    }
+
+    throw new Error('No se pudo conectar con la API. Revisa que el backend este activo.', {
+      cause: error,
+    })
+  } finally {
+    window.clearTimeout(timeoutId)
+  }
 
   if (!respuesta.ok) {
     const cuerpo = await respuesta.json().catch(() => null)

@@ -16,6 +16,9 @@ import { PublicacionesModule } from './publicaciones/publicaciones.module';
         uri:
           configService.get<string>('MONGODB_URI') ??
           'mongodb://localhost:27017/prueba_publicaciones',
+        bufferCommands: false,
+        serverSelectionTimeoutMS: 5000,
+        connectTimeoutMS: 5000,
       }),
     }),
     PublicacionesModule,

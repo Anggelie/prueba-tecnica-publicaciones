@@ -164,7 +164,12 @@ function App() {
           <p className="eyebrow">Gestion de publicaciones</p>
           <h1>Publicaciones</h1>
         </div>
-        <button className="primary-button" type="button" onClick={abrirCrear}>
+        <button
+          className="primary-button"
+          type="button"
+          onClick={abrirCrear}
+          disabled={guardando}
+        >
           Nueva publicacion
         </button>
       </header>
@@ -191,7 +196,12 @@ function App() {
         <section className="panel">
           <div className="panel-heading">
             <h2>{esEdicion ? 'Editar publicacion' : 'Crear publicacion'}</h2>
-            <button className="ghost-button" type="button" onClick={() => setVista('lista')}>
+            <button
+              className="ghost-button"
+              type="button"
+              onClick={() => setVista('lista')}
+              disabled={guardando}
+            >
               Cancelar
             </button>
           </div>
@@ -310,6 +320,7 @@ function App() {
               className="secondary-button"
               type="button"
               onClick={() => abrirEditar(publicacionSeleccionada)}
+              disabled={cargando}
             >
               Editar
             </button>
@@ -317,6 +328,7 @@ function App() {
               className="danger-button"
               type="button"
               onClick={() => eliminarPublicacion(publicacionSeleccionada)}
+              disabled={cargando}
             >
               Eliminar
             </button>
@@ -328,7 +340,12 @@ function App() {
         <section className="panel">
           <div className="panel-heading">
             <h2>Listado</h2>
-            <button className="ghost-button" type="button" onClick={cargarPublicaciones}>
+            <button
+              className="ghost-button"
+              type="button"
+              onClick={cargarPublicaciones}
+              disabled={cargando}
+            >
               Actualizar
             </button>
           </div>
